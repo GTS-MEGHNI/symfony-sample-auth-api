@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class LoginController extends AbstractController
 {
-    #[Route('/api/login', name: 'app_login')]
+    #[Route('api/login', name: 'app_login')]
     public function index(#[MapRequestPayload] LoginRequest $request, LoginService $service): Response
     {
         $service->authenticate($request);
