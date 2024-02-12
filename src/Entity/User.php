@@ -3,8 +3,11 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use App\Services\TokenService;
 use Doctrine\ORM\Mapping as ORM;
-use Random\RandomException;
+use ParagonIE\Paseto\Exception\InvalidKeyException;
+use ParagonIE\Paseto\Exception\InvalidPurposeException;
+use ParagonIE\Paseto\Exception\PasetoException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -24,7 +27,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private array $roles = [];
 
     /**
-     * @var string The hashed password
+     * @var string|null The hashed password
      */
     #[ORM\Column]
     private ?string $password = null;
@@ -68,6 +71,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return array_unique($roles);
     }
 
+    /** @noinspection PhpUnused */
     public function setRoles(array $roles): static
     {
         $this->roles = $roles;
@@ -100,12 +104,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @throws RandomException
+     * @return array
+     * @throws InvalidKeyException
+     * @throws InvalidPurposeException
+     * @throws PasetoException
      */
     public function toArrayWithToken(): array
     {
        return [
-           'token' => bin2hex(random_bytes(16)),
+           'token' => TokenService::createToken($this),
            'id' => $this->getId(),
            'email' => $this->getEmail()
        ];

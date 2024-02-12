@@ -6,7 +6,9 @@ use App\DTO\LoginRequest;
 use App\Entity\User;
 use App\Exceptions\InvalidPasswordException;
 use Doctrine\ORM\EntityManagerInterface;
-use Random\RandomException;
+use ParagonIE\Paseto\Exception\InvalidKeyException;
+use ParagonIE\Paseto\Exception\InvalidPurposeException;
+use ParagonIE\Paseto\Exception\PasetoException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class LoginService
@@ -32,7 +34,10 @@ class LoginService
     }
 
     /**
-     * @throws RandomException
+     * @return array
+     * @throws InvalidKeyException
+     * @throws InvalidPurposeException
+     * @throws PasetoException
      */
     public function respondWithToken(): array
     {
