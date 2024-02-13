@@ -4,15 +4,16 @@ namespace App\Exceptions;
 
 use Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
+use Throwable;
 
-class InvalidPasswordException extends Exception
+class EmailAlreadyTakenException extends Exception
 {
-
     public function getJsonResponse(): JsonResponse
     {
         return new JsonResponse([
             'status' => 'error',
-            'message' => 'Invalid password'
+            'message' => 'The email has already been taken'
         ], 422);
     }
 }

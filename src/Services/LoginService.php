@@ -11,9 +11,8 @@ use ParagonIE\Paseto\Exception\InvalidPurposeException;
 use ParagonIE\Paseto\Exception\PasetoException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class LoginService
+class LoginService extends AuthService
 {
-    private User $user;
 
     public function __construct(
         public EntityManagerInterface      $entityManager,
@@ -30,18 +29,9 @@ class LoginService
         $userRepository = $this->entityManager->getRepository(User::class);
         $this->user = $userRepository->findOneByEmail($request->email);
         if (!$this->userPasswordHasher->isPasswordValid($this->user, $request->password))
-            throw new InvalidPasswordException('Invalid password');
+            throw new InvalidPasswordException();
     }
 
-    /**
-     * @return array
-     * @throws InvalidKeyException
-     * @throws InvalidPurposeException
-     * @throws PasetoException
-     */
-    public function respondWithToken(): array
-    {
-        return $this->user->toArrayWithToken();
-    }
+
 
 }
