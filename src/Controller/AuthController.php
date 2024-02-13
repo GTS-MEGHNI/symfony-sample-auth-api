@@ -12,7 +12,6 @@ use ParagonIE\Paseto\Exception\InvalidPurposeException;
 use ParagonIE\Paseto\Exception\PasetoException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -21,9 +20,9 @@ class AuthController extends AbstractController
     /**
      * @param LoginRequest $request
      * @param LoginService $service
-     * @return Response
-     * @throws InvalidPasswordException
+     * @return JsonResponse
      * @throws InvalidKeyException
+     * @throws InvalidPasswordException
      * @throws InvalidPurposeException
      * @throws PasetoException
      */

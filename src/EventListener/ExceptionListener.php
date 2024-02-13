@@ -3,7 +3,9 @@
 namespace App\EventListener;
 
 use App\Exceptions\EmailAlreadyTakenException;
+use App\Exceptions\EmailNotFoundException;
 use App\Exceptions\InvalidPasswordException;
+use App\Exceptions\UsernameAlreadyTakenException;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 
@@ -11,10 +13,14 @@ final class ExceptionListener
 {
     const CLASSES_TO_LISTEN = [
         InvalidPasswordException::class,
-        EmailAlreadyTakenException::class
+        EmailAlreadyTakenException::class,
+        EmailNotFoundException::class,
+        UsernameAlreadyTakenException::class
     ];
 
-    /** @noinspection PhpPossiblePolymorphicInvocationInspection */
+    /** @noinspection PhpPossiblePolymorphicInvocationInspection
+     * @noinspection PhpUnused
+     */
     #[AsEventListener(event: 'kernel.exception')]
     public function renderException(ExceptionEvent $event): void
     {
