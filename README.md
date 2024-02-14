@@ -1,4 +1,4 @@
-# Symfony User Authentication API
+# Symfony Blog API
 
 This is a simple Symfony API project for users to login, register, create, update, and delete posts
 
