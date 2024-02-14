@@ -4,7 +4,7 @@ namespace App\DTO;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-readonly class CreatePostPayload
+readonly class CreateUpdatePostPayload
 {
     public function __construct(
         #[Assert\Length(

@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\DTO\CreatePostPayload;
+use App\DTO\CreateUpdatePostPayload;
 use App\Entity\Post;
 use App\Entity\User;
 use App\Utilities\Utility;
@@ -24,7 +24,7 @@ class PostService
     /**
      * @throws PasetoException
      */
-    public function create(Request $request, CreatePostPayload $payload): void
+    public function create(Request $request, CreateUpdatePostPayload $payload): void
     {
         $this->post = new Post();
         $this->post->setTitle($payload->title);
@@ -39,6 +39,19 @@ class PostService
     public function getPostAsArray(): array
     {
         return $this->post->toArray();
+    }
+
+    public function update(Post $post, CreateUpdatePostPayload $payload): void
+    {
+        $this->post = $post;
+        $this->post->setTitle($payload->title);
+        $this->post->setContent($payload->content);
+    }
+
+    public function delete(Post $post): void
+    {
+        $this->manager->remove($post);
+        $this->manager->flush();
     }
 
 }
