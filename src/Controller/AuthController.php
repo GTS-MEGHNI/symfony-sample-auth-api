@@ -26,7 +26,7 @@ class AuthController extends AbstractController
      * @throws InvalidPurposeException
      * @throws PasetoException
      */
-    #[Route('api/login', methods: ['POST'])]
+    #[Route('api/login', name: 'api_login', methods: ['POST'])]
     public function login(#[MapRequestPayload] LoginRequest $request, LoginService $service): JsonResponse
     {
         $service->authenticate($request);

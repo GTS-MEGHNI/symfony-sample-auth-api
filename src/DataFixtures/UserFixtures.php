@@ -2,13 +2,12 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Post;
 use App\Entity\User;
-use App\Services\PasswordHasherService;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory as Faker;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 class UserFixtures extends Fixture
 {
@@ -26,11 +25,14 @@ class UserFixtures extends Fixture
             $faker = Faker::create();
             $user = new User();
             $user->setEmail($faker->safeEmail);
+            $user->setUsername($faker->userName);
             $user->setPassword($this->passwordHasher->hashPassword($user, 'password'));
+            $post = new Post();
+            $post->setTitle('Hi this is sa title');
+            $user->addPost($post);
             $manager->persist($user);
             $manager->flush();
         }
     }
-
 
 }
