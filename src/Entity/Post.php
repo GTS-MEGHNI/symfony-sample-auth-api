@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\PostRepository;
+use Carbon\Carbon;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -58,8 +59,11 @@ class Post
     public function toArray(): array
     {
         return [
-            'id' => $this->id,
-            'author' => $this->author->toArray()
+            'id' => $this->getId(),
+            'author' => $this->getAuthor()->toArray(),
+            'title' => $this->getTitle(),
+            'content' => $this->getContent(),
+            'createdAt' => $this->getFormattedCreatedAt()
         ];
     }
 
@@ -85,5 +89,10 @@ class Post
         $this->created_at = $created_at;
 
         return $this;
+    }
+
+    public function getFormattedCreatedAt(): string
+    {
+        return Carbon::parse($this->getCreatedAt())->format('l, d F Y');
     }
 }

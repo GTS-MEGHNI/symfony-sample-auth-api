@@ -2,6 +2,8 @@
 
 namespace App\Utilities;
 
+use App\Services\TokenService;
+use ParagonIE\Paseto\Exception\PasetoException;
 use Symfony\Component\HttpFoundation\Request;
 
 class Utility
@@ -14,5 +16,15 @@ class Utility
         } else {
             return null;
         }
+    }
+
+    /**
+     * @throws PasetoException
+     */
+    public static function getUserId(Request $request): int
+    {
+        $token = self::getBearerToken($request);
+        $parsedToken = TokenService::parseToken($token);
+        return $parsedToken->getClaims()['userId'];
     }
 }
